@@ -10,6 +10,9 @@ class Security(models.Model):
     symbol = models.CharField(max_length=32, unique=True)
     currency = models.CharField(max_length=32)
 
+    class Meta:
+        ordering = ['symbol']
+
     def __str__(self):
         return '{} ({})'.format(self.symbol, self.currency)
 
@@ -27,6 +30,7 @@ class SecurityDailyData(models.Model):
 
     class Meta:
         unique_together = ('security', 'date')
+        ordering = ['-date', 'security']
 
     def __str__(self):
-        return '{} ({})'.format(self.symbol, self.currency)
+        return '{} ({})'.format(self.security, self.date)

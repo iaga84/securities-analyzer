@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'admin_extra_urls',
     's_analyzer.core.apps.CoreConfig',
     's_analyzer.apps.market_data.apps.MarketDataConfig',
 ]
@@ -72,4 +73,4 @@ USE_L10N = True
 
 USE_TZ = True
 
-XSTATIC_URL = '/static/'
+STATIC_URL = '/static/'
