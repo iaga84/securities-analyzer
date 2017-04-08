@@ -30,7 +30,7 @@ class SecurityDailyData(models.Model):
 
     class Meta:
         unique_together = ('security', 'date')
-        ordering = ['-date', 'security']
+        ordering = ['date', 'security']
 
     def __str__(self):
         return '{} ({})'.format(self.security, self.date)

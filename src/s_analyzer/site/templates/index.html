@@ -1,7 +1,35 @@
 {% extends 'base.html' %}{% load static %}
 {% block page-content %}
 
-    <h2>Welcome</h2>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+
+    <div id="container" style="width:100%; height:600px;"></div>
+
+    <script>
+        security_symbol = 'WLD.MI'
+        $.getJSON('/api/security_daily_data/?security__symbol=' + security_symbol + '&serializer=lite', function (data) {
+            Highcharts.stockChart('container', {
+
+
+                rangeSelector: {
+                    selected: 1
+                },
+
+                title: {
+                    text: security_symbol + ' Price History'
+                },
+
+                series: [{
+                    name: security_symbol,
+                    data: data,
+                    tooltip: {
+                        valueDecimals: 2
+                    }
+                }]
+            });
+        });
+    </script>
 
 {% endblock page-content %}
 
