@@ -18,3 +18,12 @@ class SecurityDailyDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = SecurityDailyData
         fields = '__all__'
+
+
+class SecurityDailyDataLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SecurityDailyData
+        fields = '__all__'
+
+    def to_representation(self, obj):
+        return int(obj.date.strftime("%s")) * 1000, obj.adjusted_closing_price

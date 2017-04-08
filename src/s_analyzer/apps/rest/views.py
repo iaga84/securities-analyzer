@@ -4,16 +4,28 @@ from __future__ import absolute_import, print_function, unicode_literals
 from rest_framework import viewsets
 
 from s_analyzer.apps.market_data.models import Security, SecurityDailyData
-from s_analyzer.apps.rest.serializers import SecurityDailyDataSerializer, SecuritySerializer
+from s_analyzer.apps.rest.serializers import (SecurityDailyDataLiteSerializer,
+                                              SecurityDailyDataSerializer, SecuritySerializer,)
 
 
-class SecurityViewSet(viewsets.ModelViewSet):
+class BaseModelViewSet(viewsets.ModelViewSet):
+    additional_serializers = {}
+
+    def get_serializer_class(self):
+        return self.additional_serializers.get(self.request.GET.get('serializer', None),
+                                               self.serializer_class)
+
+
+class SecurityViewSet(BaseModelViewSet):
     queryset = Security.objects.all()
     serializer_class = SecuritySerializer
     filter_fields = ('symbol', 'currency')
 
 
-class SecurityDailyDataViewSet(viewsets.ModelViewSet):
+class SecurityDailyDataViewSet(BaseModelViewSet):
     queryset = SecurityDailyData.objects.all()
     serializer_class = SecurityDailyDataSerializer
-    filter_fields = ('security', 'date')
+    additional_serializers = {
+        'lite': SecurityDailyDataLiteSerializer
+    }
+    filter_fields = ('security', 'security__symbol', 'date')
