@@ -4,5 +4,5 @@ A Django project that helps you to analyze market securities (stocks, bonds, etf
 
 Collaborate
 -----------
-In order to get a working environment, please create a virtualenv and then run:
+In order to set up a working environment, please create a virtualenv and then run:
 `make develop`
