@@ -8,7 +8,7 @@ from yahoo_finance import Share
 from s_analyzer.apps.market_data.models import Security, SecurityDailyData
 
 
-def get_historical_data(security_pk, past_days=150):
+def get_historical_data(security_pk, past_days=360):
     security = Security.objects.get(pk=security_pk)
 
     yahoo = Share(security.symbol)

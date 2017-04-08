@@ -16,8 +16,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'admin_extra_urls',
+    'rest_framework',
+    'django_filters',
+    's_analyzer.site.apps.SiteConfig',
     's_analyzer.core.apps.CoreConfig',
     's_analyzer.apps.market_data.apps.MarketDataConfig',
+    's_analyzer.apps.rest.apps.RestConfig',
 ]
 
 MIDDLEWARE = [
@@ -74,3 +78,8 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}

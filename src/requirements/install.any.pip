@@ -1,2 +1,6 @@
 yahoo-finance==1.4.0
 admin-extra-urls==1.4
+markdown==2.6.8
+django-filter==1.0.2
+django-crispy-forms==1.6.1
+djangorestframework==3.6.2
