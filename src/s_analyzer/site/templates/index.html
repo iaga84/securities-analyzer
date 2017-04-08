@@ -7,26 +7,69 @@
     <div id="container" style="width:100%; height:600px;"></div>
 
     <script>
-        security_symbol = 'WLD.MI'
-        $.getJSON('/api/security_daily_data/?security__symbol=' + security_symbol + '&serializer=lite', function (data) {
+        security_symbol = 'WLD.MI';
+        var seriesOptions = [],
+            seriesCounter = 0,
+            days = ['20', '100'];
+
+        function createChart() {
             Highcharts.stockChart('container', {
 
-
                 rangeSelector: {
-                    selected: 1
+                    selected: 4
                 },
 
-                title: {
-                    text: security_symbol + ' Price History'
+                yAxis: {
+                    labels: {
+                        formatter: function () {
+                            return (this.value > 0 ? ' + ' : '') + this.value + '%';
+                        }
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 2,
+                        color: 'silver'
+                    }]
                 },
 
-                series: [{
-                    name: security_symbol,
-                    data: data,
-                    tooltip: {
-                        valueDecimals: 2
+                plotOptions: {
+                    series: {
+                        compare: 'value',
+                        showInNavigator: true
                     }
-                }]
+                },
+
+                tooltip: {
+                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                    valueDecimals: 2,
+                    split: true
+                },
+
+                series: seriesOptions
+            });
+        }
+
+        $.getJSON('/api/security_daily_data/?security__symbol=' + security_symbol + '&serializer=lite', function (data) {
+            seriesOptions[2] = {
+                name: security_symbol,
+                data: data,
+            };
+        });
+
+        $.each(days, function (i, name) {
+            $.getJSON('http://localhost:8000/api/security_daily_moving_averages/?serializer=lite&period__days=' + name + '&period__security__symbol=' + security_symbol, function (data) {
+
+                seriesOptions[i] = {
+                    name: name + ' days',
+                    data: data,
+                    type: 'spline',
+                };
+
+                seriesCounter += 1;
+
+                if (seriesCounter === days.length) {
+                    createChart();
+                }
             });
         });
     </script>

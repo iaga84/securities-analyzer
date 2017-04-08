@@ -8,7 +8,7 @@ from django.db.models import Avg
 from yahoo_finance import Share
 
 from s_analyzer.apps.market_data.models import (Security, SecurityDailyData, SecurityDailyMovingAverage,
-                                                SecurityDailyMovingAveragePeriod, )
+                                                SecurityDailyMovingAveragePeriod,)
 
 logger = logging.getLogger(__name__)
 
