@@ -34,3 +34,18 @@ class SecurityDailyData(models.Model):
 
     def __str__(self):
         return '{} ({})'.format(self.security, self.date)
+
+
+@python_2_unicode_compatible
+class SecurityDailyMovingAverage(models.Model):
+    security = models.ForeignKey(Security, related_name='daily_moving_average')
+    date = models.DateField()
+    period = models.IntegerField()
+    average = models.DecimalField(max_digits=12, decimal_places=3)
+
+    class Meta:
+        unique_together = ('security', 'date', 'period')
+        ordering = ['date', 'security', 'period']
+
+    def __str__(self):
+        return '{} [{} days] ({})'.format(self.security, self.period, self.date)
