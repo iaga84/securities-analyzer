@@ -11,10 +11,11 @@ class Security(models.Model):
     currency = models.CharField(max_length=32)
 
     class Meta:
+        verbose_name_plural = "securities"
         ordering = ['symbol']
 
     def __str__(self):
-        return '{} ({})'.format(self.symbol, self.currency)
+        return '{}'.format(self.symbol)
 
 
 @python_2_unicode_compatible
@@ -29,6 +30,7 @@ class SecurityDailyData(models.Model):
     volume = models.IntegerField()
 
     class Meta:
+        verbose_name_plural = "security daily data"
         unique_together = ('security', 'date')
         ordering = ['date', 'security']
 
@@ -37,15 +39,29 @@ class SecurityDailyData(models.Model):
 
 
 @python_2_unicode_compatible
+class SecurityDailyMovingAveragePeriod(models.Model):
+    security = models.ForeignKey(Security, related_name='daily_moving_average_periods')
+    days = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = "security daily moving average periods"
+        unique_together = ('security', 'days')
+        ordering = ['security', 'days']
+
+    def __str__(self):
+        return '{} [{} days]'.format(self.security, self.days)
+
+
+@python_2_unicode_compatible
 class SecurityDailyMovingAverage(models.Model):
-    security = models.ForeignKey(Security, related_name='daily_moving_average')
     date = models.DateField()
-    period = models.IntegerField()
+    period = models.ForeignKey(SecurityDailyMovingAveragePeriod, related_name='daily_moving_averages')
     average = models.DecimalField(max_digits=12, decimal_places=3)
 
     class Meta:
-        unique_together = ('security', 'date', 'period')
-        ordering = ['date', 'security', 'period']
+        verbose_name_plural = "security daily moving averages"
+        unique_together = ('date', 'period')
+        ordering = ['date', 'period']
 
     def __str__(self):
-        return '{} [{} days] ({})'.format(self.security, self.period, self.date)
+        return '{} [{} days] ({})'.format(self.period.security, self.period.days, self.date)
