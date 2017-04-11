@@ -1,0 +1,11 @@
+include README.md
+include CHANGES
+include MANIFEST.in
+
+recursive-include docs *
+recursive-include src *
+recursive-include tests *
+
+# development settings
+exclude src/s_analyzer/settings/testing.py
+exclude src/s_analyzer/settings/_iaga.py
