@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     's_analyzer.site.apps.SiteConfig',
     's_analyzer.core.apps.CoreConfig',
     's_analyzer.apps.market_data.apps.MarketDataConfig',
+    's_analyzer.apps.analyzers.apps.AnalyzersConfig',
     's_analyzer.apps.rest.apps.RestConfig',
 ]
 

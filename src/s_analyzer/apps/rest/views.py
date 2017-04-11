@@ -3,7 +3,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from rest_framework import viewsets
 
-from s_analyzer.apps.market_data.models import Security, SecurityDailyData, SecurityDailyMovingAverage
+from s_analyzer.apps.analyzers.moving_average.models import SecurityDailyMovingAverage
+from s_analyzer.apps.market_data.models import Security, SecurityDailyData
 from s_analyzer.apps.rest.serializers import (SecurityDailyDataLiteSerializer, SecurityDailyDataSerializer,
                                               SecurityDailyMovingAverageLiteSerializer,
                                               SecurityDailyMovingAverageSerializer, SecuritySerializer,)

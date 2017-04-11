@@ -3,8 +3,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from rest_framework import serializers
 
-from s_analyzer.apps.market_data.models import (Security, SecurityDailyData, SecurityDailyMovingAverage,
-                                                SecurityDailyMovingAveragePeriod,)
+from s_analyzer.apps.analyzers.moving_average.models import SecurityDailyMovingAverage, SecurityDailyMovingAveragePeriod
+from s_analyzer.apps.market_data.models import Security, SecurityDailyData
 
 
 class SecuritySerializer(serializers.ModelSerializer):

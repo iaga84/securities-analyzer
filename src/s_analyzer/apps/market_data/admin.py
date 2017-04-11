@@ -4,9 +4,10 @@ from __future__ import absolute_import, print_function, unicode_literals
 from admin_extra_urls.extras import action, ExtraUrlMixin
 from django.contrib import admin
 
-from s_analyzer.apps.market_data.sync import get_historical_data, refresh_moving_average_records
+from s_analyzer.apps.analyzers.moving_average.analyzer import refresh_moving_average_records
+from s_analyzer.apps.market_data.sync import get_historical_data
 
-from .models import Security, SecurityDailyData, SecurityDailyMovingAverage, SecurityDailyMovingAveragePeriod
+from .models import Security, SecurityDailyData
 
 
 @admin.register(Security)
@@ -19,14 +20,4 @@ class SecurityAdmin(ExtraUrlMixin, admin.ModelAdmin):
 
 @admin.register(SecurityDailyData)
 class SecurityDailyDataAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(SecurityDailyMovingAverage)
-class SecurityDailyMovingAverageAdmin(admin.ModelAdmin):
-    list_display = ('period', 'date', 'average')
-
-
-@admin.register(SecurityDailyMovingAveragePeriod)
-class SecurityDailyMovingAveragePeriodAdmin(admin.ModelAdmin):
     pass
