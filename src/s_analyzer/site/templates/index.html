@@ -9,7 +9,6 @@
     <script>
         security_symbol = 'WLD.MI';
         var seriesOptions = [],
-            seriesCounter = 0,
             days = ['20', '100'];
 
         function createChart() {
@@ -22,7 +21,7 @@
                 yAxis: {
                     labels: {
                         formatter: function () {
-                            return (this.value > 0 ? ' + ' : '') + this.value + '%';
+                            return this.value;
                         }
                     },
                     plotLines: [{
@@ -34,13 +33,12 @@
 
                 plotOptions: {
                     series: {
-                        compare: 'value',
                         showInNavigator: true
                     }
                 },
 
                 tooltip: {
-                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
                     valueDecimals: 2,
                     split: true
                 },
@@ -49,28 +47,30 @@
             });
         }
 
-        $.getJSON('/api/security_daily_data/?security__symbol=' + security_symbol + '&serializer=lite', function (data) {
-            seriesOptions[2] = {
+
+        $.when(
+            $.ajax('/api/security_daily_data/?security__symbol=' + security_symbol + '&serializer=lite'),
+            $.ajax('/api/security_daily_moving_averages/?serializer=lite&period__days=20&period__security__symbol=' + security_symbol),
+            $.ajax('/api/security_daily_moving_averages/?serializer=lite&period__days=100&period__security__symbol=' + security_symbol)
+        ).done(function (a1, a2, a3) {
+            seriesOptions[0] = {
                 name: security_symbol,
-                data: data,
+                data: a1[0],
+                color: 'DarkBlue',
             };
-        });
+            seriesOptions[1] = {
+                name: '20 days',
+                data: a2[0],
+                color: 'DeepSkyBlue',
 
-        $.each(days, function (i, name) {
-            $.getJSON('http://localhost:8000/api/security_daily_moving_averages/?serializer=lite&period__days=' + name + '&period__security__symbol=' + security_symbol, function (data) {
+            };
+            seriesOptions[2] = {
+                name: '100 days',
+                data: a3[0],
+                color: 'DarkTurquoise',
 
-                seriesOptions[i] = {
-                    name: name + ' days',
-                    data: data,
-                    type: 'spline',
-                };
-
-                seriesCounter += 1;
-
-                if (seriesCounter === days.length) {
-                    createChart();
-                }
-            });
+            };
+            createChart();
         });
     </script>
 
