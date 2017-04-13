@@ -3,6 +3,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from rest_framework import serializers
 
+from s_analyzer.apps.analyzers.machine_learning.models import SecurityDailyMachineLearningPrediction
 from s_analyzer.apps.analyzers.moving_average.models import SecurityDailyMovingAverage, SecurityDailyMovingAveragePeriod
 from s_analyzer.apps.market_data.models import Security, SecurityDailyData
 
@@ -53,3 +54,20 @@ class SecurityDailyMovingAverageLiteSerializer(serializers.ModelSerializer):
 
     def to_representation(self, obj):
         return int(obj.date.strftime("%s")) * 1000, obj.average
+
+
+class SecurityDailyMachineLearningPredictionSerializer(serializers.ModelSerializer):
+    period = SecurityDailyMovingAveragePeriodSerializer()
+
+    class Meta:
+        model = SecurityDailyMachineLearningPrediction
+        fields = '__all__'
+
+
+class SecurityDailyMachineLearningPredictionLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SecurityDailyMachineLearningPrediction
+        fields = '__all__'
+
+    def to_representation(self, obj):
+        return int(obj.date.strftime("%s")) * 1000, obj.prediction

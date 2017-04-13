@@ -3,9 +3,12 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from rest_framework import viewsets
 
+from s_analyzer.apps.analyzers.machine_learning.models import SecurityDailyMachineLearningPrediction
 from s_analyzer.apps.analyzers.moving_average.models import SecurityDailyMovingAverage
 from s_analyzer.apps.market_data.models import Security, SecurityDailyData
 from s_analyzer.apps.rest.serializers import (SecurityDailyDataLiteSerializer, SecurityDailyDataSerializer,
+                                              SecurityDailyMachineLearningPredictionLiteSerializer,
+                                              SecurityDailyMachineLearningPredictionSerializer,
                                               SecurityDailyMovingAverageLiteSerializer,
                                               SecurityDailyMovingAverageSerializer, SecuritySerializer,)
 
@@ -38,5 +41,14 @@ class SecurityDailyMovingAverageViewSet(BaseModelViewSet):
     serializer_class = SecurityDailyMovingAverageSerializer
     additional_serializers = {
         'lite': SecurityDailyMovingAverageLiteSerializer
+    }
+    filter_fields = ('period', 'period__days', 'period__security', 'period__security__symbol', 'date')
+
+
+class SecurityDailyMachineLearningPredictionViewSet(BaseModelViewSet):
+    queryset = SecurityDailyMachineLearningPrediction.objects.all()
+    serializer_class = SecurityDailyMachineLearningPredictionSerializer
+    additional_serializers = {
+        'lite': SecurityDailyMachineLearningPredictionLiteSerializer
     }
     filter_fields = ('period', 'period__days', 'period__security', 'period__security__symbol', 'date')

@@ -51,8 +51,9 @@
         $.when(
             $.ajax('/api/security_daily_data/?security__symbol=' + security_symbol + '&serializer=lite'),
             $.ajax('/api/security_daily_moving_averages/?serializer=lite&period__days=20&period__security__symbol=' + security_symbol),
-            $.ajax('/api/security_daily_moving_averages/?serializer=lite&period__days=100&period__security__symbol=' + security_symbol)
-        ).done(function (a1, a2, a3) {
+            $.ajax('/api/security_daily_moving_averages/?serializer=lite&period__days=100&period__security__symbol=' + security_symbol),
+            $.ajax('/api/security_daily_machine_learning_predictions/?serializer=lite&period__days=7&period__security__symbol=' + security_symbol)
+        ).done(function (a1, a2, a3, a4) {
             seriesOptions[0] = {
                 name: security_symbol,
                 data: a1[0],
@@ -68,6 +69,12 @@
                 name: '100 days',
                 data: a3[0],
                 color: 'DarkTurquoise',
+
+            };
+            seriesOptions[3] = {
+                name: 'Prediction 7 days',
+                data: a4[0],
+                color: 'DarkOrange ',
 
             };
             createChart();

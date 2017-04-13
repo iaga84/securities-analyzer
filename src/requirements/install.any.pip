@@ -1,6 +1,9 @@
 yahoo-finance==1.4.0
 admin-extra-urls==1.4
 markdown==2.6.8
+numpy==1.12.1
+scipy==0.19.0
+scikit-learn==0.18.1
 django-filter==1.0.2
 django-crispy-forms==1.6.1
 djangorestframework==3.6.2

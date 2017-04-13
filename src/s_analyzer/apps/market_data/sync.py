@@ -11,7 +11,7 @@ from s_analyzer.apps.market_data.models import Security, SecurityDailyData
 logger = logging.getLogger(__name__)
 
 
-def get_historical_data(security_pk, past_days=360):
+def get_historical_data(security_pk, past_days=365):
     start_date = datetime.today() - timedelta(days=past_days)
     today = datetime.today()
     yesterday = today - timedelta(days=1)
