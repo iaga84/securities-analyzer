@@ -14,6 +14,10 @@
         function createChart() {
             Highcharts.stockChart('container', {
 
+                legend: {
+                    enabled: true
+                },
+
                 rangeSelector: {
                     selected: 4
                 },
@@ -60,19 +64,19 @@
                 color: 'DarkBlue',
             };
             seriesOptions[1] = {
-                name: '20 days',
+                name: security_symbol + ' 20d',
                 data: a2[0],
                 color: 'DeepSkyBlue',
 
             };
             seriesOptions[2] = {
-                name: '100 days',
+                name: security_symbol + ' 100d',
                 data: a3[0],
                 color: 'DarkTurquoise',
 
             };
             seriesOptions[3] = {
-                name: 'Prediction 7 days',
+                name: security_symbol + ' pred. 7d',
                 data: a4[0],
                 color: 'DarkOrange ',
 
